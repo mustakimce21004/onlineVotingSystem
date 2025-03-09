@@ -1,0 +1,44 @@
+/* Reset default margin/padding for full-width layout */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Remove Bootstrap container-fluid default padding */
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Ensure header and footer span full width without extra margin */
+header, footer {
+    width: 100%;
+}
+
+/* Remove any extra margin on rows inside header and footer */
+header .row, footer .row {
+    margin: 0;
+}
+
+/* Header custom styles */
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+@media (min-width: 1200px) {
+    header h1 {
+        font-size: 3rem;
+    }
+}
+
+/* Card (login form) styling */
+.card {
+    border-radius: 8px;
+}
+
+/* Optional: Adjust button font-size */
+button.btn {
+    font-size: 1.1rem;
+}
