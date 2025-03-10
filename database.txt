@@ -1,0 +1,51 @@
+-- Create the database and switch to it
+CREATE DATABASE onlinevoting;
+USE onlinevoting;
+
+-- 1. Users Table: Stores both admin and voter login details.
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    alumni_id VARCHAR(20) DEFAULT NULL,       -- For voters (e.g., CE21004)
+    name VARCHAR(100) NOT NULL,                 -- For admin
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(15) DEFAULT NULL,             -- For voters
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'voter') NOT NULL,
+    status ENUM('active', 'inactive') DEFAULT 'active'
+);
+
+-- 2. OTP Verifications Table: Stores OTP codes for alumni (voters)
+CREATE TABLE otp_verifications (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    otp_code VARCHAR(10) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 3. Positions Table: Stores different election positions.
+CREATE TABLE positions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- 4. Candidates Table: Stores candidate details linked to a position.
+CREATE TABLE candidates (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    position_id INT NOT NULL,
+    votes INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE CASCADE
+);
+
+-- 5. Votes Table: Records votes cast by each voter.
+CREATE TABLE votes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    voter_id INT NOT NULL,
+    candidate_id INT NOT NULL,
+    position_id INT NOT NULL,
+    FOREIGN KEY (voter_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (candidate_id) REFERENCES candidates(id) ON DELETE CASCADE,
+    FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE NO ACTION
+);
+infinity-vkQtAqOQAN
